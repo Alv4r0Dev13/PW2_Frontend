@@ -36,6 +36,11 @@
     "enabled": true,
     "include": [
       "src/*.ts"
-    ]
+    ],
+    "rules": {
+      "suspicious": {
+        "noExplicitAny": "off"
+      }
+    }
   }
 }
