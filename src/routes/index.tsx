@@ -8,7 +8,7 @@ import PrivateRoute from './private';
 
 export const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<PrivateRoute><Homepage /></PrivateRoute>} />
+    <Route path="/" element={<Homepage />} />
     <Route path="/login" element={<Login />} />
   </Routes>
 );

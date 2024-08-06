@@ -13,6 +13,7 @@ export default createGlobalStyle`
 
   body {
     background-color: ${colors[isLightMode ? 'light' : 'dark'].backgroundMain};
+    color: ${colors[isLightMode ? 'light' : 'dark'].textMain};
     font-family: 'Oxanium';
   }
 `;
