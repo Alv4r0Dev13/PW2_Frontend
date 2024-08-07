@@ -1,19 +1,23 @@
 import { MoonFilled, SunFilled } from '@ant-design/icons';
 import { Container } from './styles';
 import { useEffect, useState } from 'react';
-import { getStorage } from '../../services/storage';
+import { getStorage, setStorage } from '../../services/storage';
 import colors from '../../styles/colors';
 import { ToggleThemeI } from '../../utils/components';
+import { AppTheme } from '../../utils/types';
 
 const ToggleTheme: React.FC<ToggleThemeI> = ({ size }) => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [theme, setTheme] = useState<AppTheme>('dark');
 
   function handleToggle() {
-    // implement later...
+    const value = getStorage('theme');
+    if (!value || value === 'dark') setStorage('theme', 'light');
+    else setStorage('theme', 'dark');
+    window.location.reload();
   }
 
   useEffect(() => {
-    const theme = getStorage('theme');
+    const theme = getStorage('theme') as AppTheme | null;
     setTheme(theme || 'dark');
   });
 
@@ -22,7 +26,7 @@ const ToggleTheme: React.FC<ToggleThemeI> = ({ size }) => {
       style={{ color: colors[theme].textMain, fontSize: size }}
       onClick={handleToggle}
     >
-      {theme === 'dark' ? <MoonFilled /> : <SunFilled />}
+      {theme === 'light' ? <SunFilled /> : <MoonFilled />}
     </Container>
   );
 };

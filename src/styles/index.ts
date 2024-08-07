@@ -1,7 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 import colors from './colors';
+import { getStorage } from '../services/storage';
+import { AppTheme } from '../utils/types';
 
-const isLightMode = false;
+const theme = (getStorage('theme') as AppTheme | null) || 'dark';
 
 export default createGlobalStyle`
   * {
@@ -12,8 +14,8 @@ export default createGlobalStyle`
   }
 
   body {
-    background-color: ${colors[isLightMode ? 'light' : 'dark'].backgroundMain};
-    color: ${colors[isLightMode ? 'light' : 'dark'].textMain};
+    background-color: ${colors[theme].backgroundMain};
+    color: ${colors[theme].textMain};
     font-family: 'Oxanium';
   }
 `;
