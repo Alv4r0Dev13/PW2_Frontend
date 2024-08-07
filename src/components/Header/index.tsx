@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container, HeaderLink, ActionsContainer } from './styles';
+import { Container, HeaderLink, ActionsContainer, TitleLink } from './styles';
 import { getStorage } from '../../services/storage';
 import ToggleTheme from '../ToggleTheme';
 import SearchInput from '../SearchInput';
-import { HeaderI } from '../../utils/components';
 
-const Header: React.FC<HeaderI> = ({ showSearch }) => {
+const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -16,8 +15,10 @@ const Header: React.FC<HeaderI> = ({ showSearch }) => {
 
   return (
     <Container>
-      <h1>TechTalks</h1>
-      {showSearch && <SearchInput />}
+      <TitleLink to="/">
+        <h1>TechTalks</h1>
+      </TitleLink>
+      <SearchInput />
       <ActionsContainer>
         {!isLoggedIn && (
           <>

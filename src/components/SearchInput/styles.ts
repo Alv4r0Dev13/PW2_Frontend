@@ -4,10 +4,12 @@ import colors from '../../styles/colors';
 export const InputContainer = styled.label`
   cursor: text;
   display: flex;
+  position: absolute;
   background-color: ${props => props.theme.backgroundMain};
   border-radius: 50px;
   width: 50%;
   padding: 0.5% 1%;
+  left: 25%;
 `;
 
 export const Input = styled.input`

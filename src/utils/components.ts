@@ -7,7 +7,3 @@ export interface PrivateRouteI {
 export interface ToggleThemeI {
   size?: string | number;
 }
-
-export interface HeaderI {
-  showSearch?: boolean;
-}
