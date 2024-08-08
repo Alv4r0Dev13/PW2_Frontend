@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import colors from '../../styles/colors';
 
 export const InputContainer = styled.label`
   cursor: text;
