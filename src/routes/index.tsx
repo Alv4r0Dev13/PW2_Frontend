@@ -3,6 +3,7 @@ import Homepage from '../pages/Homepage';
 import Login from '../pages/Login';
 import PrivateRoute from './private';
 import Header from '../components/Header';
+import Search from '../pages/Search'
 
 export const AppRoutes = () => (
   <Routes>
@@ -16,5 +17,12 @@ export const AppRoutes = () => (
       }
     />
     <Route path="/login" element={<Login />} />
+    <Route path="/search" element={
+      <>
+        <Header />
+        <Search />
+      </>
+    }
+    />
   </Routes>
 );
