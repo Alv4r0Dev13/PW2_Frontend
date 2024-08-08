@@ -33,4 +33,5 @@ export default {
   },
 };
 
-// colors[isLightMode ? 'light' : 'dark'].backgroundMain
+// property: ${props => props.theme.colorName}
+// -> "property" é a propriedade do CSS e "colorName" é o nome da cor
