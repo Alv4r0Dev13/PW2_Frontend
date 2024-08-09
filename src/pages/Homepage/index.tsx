@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Content } from './styles';
+import { Container, Content} from './styles';
 import axios from '../../services/axios';
 import { PostE } from '../../utils/entities';
 import Header from '../../components/Header';
