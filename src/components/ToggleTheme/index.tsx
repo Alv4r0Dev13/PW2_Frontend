@@ -6,7 +6,7 @@ import colors from '../../styles/colors';
 import { ToggleThemeI } from '../../utils/components';
 import { AppTheme } from '../../utils/types';
 
-const ToggleTheme: React.FC<ToggleThemeI> = ({ size }) => {
+const ToggleTheme: React.FC<ToggleThemeI> = ({ size, style }) => {
   const [theme, setTheme] = useState<AppTheme>('dark');
 
   function handleToggle() {
@@ -23,7 +23,7 @@ const ToggleTheme: React.FC<ToggleThemeI> = ({ size }) => {
 
   return (
     <Container
-      style={{ color: colors[theme].textMain, fontSize: size }}
+      style={{ color: colors[theme].textMain, fontSize: size, ...style }}
       onClick={handleToggle}
     >
       {theme === 'light' ? <SunFilled /> : <MoonFilled />}

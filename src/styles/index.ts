@@ -18,4 +18,19 @@ export default createGlobalStyle`
     color: ${colors[theme].textMain};
     font-family: 'Oxanium';
   }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  button {
+    font-family: 'Oxanium';
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+  }
 `;
