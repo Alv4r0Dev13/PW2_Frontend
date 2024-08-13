@@ -21,3 +21,8 @@ export interface ComponentInputI
   label?: string;
   error?: boolean;
 }
+
+export interface LogoutModalI {
+  onClose: () => void;
+  onConfirm: () => void;
+}

@@ -37,4 +37,9 @@ export const ExitButton = styled.button`
   border-radius: 5px;
   font-size: 20px;
   padding: 8px 8px 7px;
+
+  &:hover {
+    color: white;
+    background-color: ${props => props.theme.danger};
+  }
 `;
