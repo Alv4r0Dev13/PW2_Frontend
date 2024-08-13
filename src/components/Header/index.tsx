@@ -4,9 +4,11 @@ import { Container, HeaderLink, ActionsContainer, TitleLink } from './styles';
 import { getStorage } from '../../services/storage';
 import ToggleTheme from '../ToggleTheme';
 import SearchInput from '../SearchInput';
+import { useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const user = getStorage('user');
@@ -22,8 +24,12 @@ const Header: React.FC = () => {
       <ActionsContainer>
         {!isLoggedIn && (
           <>
-            <HeaderLink to="/login">Entrar</HeaderLink>
-            <HeaderLink to="/login">Criar conta</HeaderLink>
+            <HeaderLink to="/login" state={{ prev: location.pathname }}>
+              Entrar
+            </HeaderLink>
+            <HeaderLink to="/register" state={{ prev: location.pathname }}>
+              Criar conta
+            </HeaderLink>
           </>
         )}
         <ToggleTheme size={30} />
