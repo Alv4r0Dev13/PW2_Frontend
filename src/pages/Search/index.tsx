@@ -8,28 +8,54 @@ import {
   Line
 } from './styles';
 import axios from '../../services/axios';
-import { PostE } from '../../utils/entities';
+import { PostE, UserE } from '../../utils/entities';
 import MiniProfile from '../../components/MiniProfile';
 import PostContainer from '../../components/PostContainer';
+import UserContainer from '../../components/UserContainer';
 import { getStorage } from '../../services/storage';
 import { AppTheme } from '../../utils/types';
+import { SearchProps } from '../../utils/components';
 
 const theme = (getStorage('theme') as AppTheme | null) || 'dark';
 
-const Homepage: React.FC = () => {
+const Homepage: React.FC<SearchProps> = ({searchText}) => {
+
+  const [user, setUser] = useState<UserE | null>(null);
+  const [requestUrl, setRequestUrl] = useState('/filterPosts')
   const [posts, setPosts] = useState<PostE[]>([]);
+  const [users, setUsers] = useState<UserE[]>([]);
   const [option, setOption] = useState(0);
 
-  function setOptionToPosts() { setOption(0); }
-  function setOptionToMyPosts() { setOption(1); }
-  function setOptionToPeople() { setOption(2); }
+  useEffect(() => {
+    const storedUser = getStorage('user');
+    setUser(storedUser);
+  }, []);
+
+  function setOptionToPosts() {
+    setOption(0);
+    setRequestUrl('/filterPosts');
+  }
+  function setOptionToMyPosts() {
+    setOption(1);
+    setRequestUrl(`/filterPosts/user/${user?.username}`)
+  }
+  function setOptionToPeople() {
+    setOption(2);
+    setRequestUrl('/filterUsers');
+  }
 
   useEffect(() => {
     (async () => {
-      const data = await axios.get('/posts').then(resp => resp.data);
-      setPosts(data);
+      const params = `/${searchText}`
+      const newResquestUrl = searchText !== '' ? requestUrl + params : requestUrl
+      const data = await axios.get(encodeURI(newResquestUrl)).then(resp => resp.data);
+      if (option !== 2) {
+        setPosts(data);
+      } else {
+        setUsers(data)
+      }
     })();
-  }, []);
+  }, [requestUrl, option, searchText]);
 
   return (
     <Container>
@@ -64,8 +90,10 @@ const Homepage: React.FC = () => {
           ><h1>Pessoas</h1></LinkedText>
         </SearchOptionsDiv>
         <Line/>
-        {posts.map(post => (
+        {option !== 2 ? posts.map(post => (
           <PostContainer key={post.id} data={post} />
+        )) : users.map(user => (
+          <UserContainer key={user.id} data={user} />
         ))}
       </Content>
       <MiniProfile />
