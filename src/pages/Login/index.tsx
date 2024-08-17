@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from '../../services/axios';
 import { setStorage } from '../../services/storage';
@@ -59,7 +59,7 @@ const Login = () => {
         // OK
         resp => {
           setStorage('user', resp.data.payload);
-          navigate(state.prev);
+          navigate(state.prev, { state });
         },
 
         // NOT FOUND or SERVER ERROR
