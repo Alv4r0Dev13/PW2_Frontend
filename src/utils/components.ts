@@ -1,7 +1,6 @@
 import type { ReactElement } from 'react';
 import { PostE, UserE } from './entities';
 import React from 'react';
-import { CSS } from 'styled-components/dist/types';
 
 export interface PrivateRouteI {
   children: ReactElement<any, any> | null;
@@ -40,5 +39,5 @@ export interface InputProps {
 }
 
 export interface SearchProps {
-  searchText?: string
+  searchText?: string;
 }

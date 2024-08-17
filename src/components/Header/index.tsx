@@ -5,7 +5,7 @@ import { getStorage } from '../../services/storage';
 import ToggleTheme from '../ToggleTheme';
 import SearchInput from '../SearchInput';
 import { useLocation } from 'react-router-dom';
-import {HeaderProps} from '../../utils/components'
+import { HeaderProps } from '../../utils/components';
 
 const Header: React.FC<HeaderProps> = ({ onInputChange }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ onInputChange }) => {
       <TitleLink to="/">
         <h1>TechTalks</h1>
       </TitleLink>
-      <SearchInput onInputChange={onInputChange}  />
+      <SearchInput onInputChange={onInputChange} />
       <ActionsContainer>
         {!isLoggedIn && (
           <>

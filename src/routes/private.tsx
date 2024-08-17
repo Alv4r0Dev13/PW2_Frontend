@@ -6,9 +6,15 @@ import { getStorage } from '../services/storage';
 export const PrivateRoute: React.FC<PrivateRouteI> = ({ children }) => {
   const location = useLocation();
   const user = getStorage('user');
-  if (!user) return <Navigate to="/login" state={location.pathname} />
+  if (!user)
+    return (
+      <Navigate
+        to="/login"
+        state={{ ...location.state, prev: location.pathname }}
+      />
+    );
 
   return children;
-}
+};
 
 export default PrivateRoute;

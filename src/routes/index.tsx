@@ -7,10 +7,9 @@ import Search from '../pages/Search';
 import Profile from '../pages/Profile';
 import EditProfile from '../pages/EditProfile';
 import Register from '../pages/Register';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const AppRoutes = () => {
-
   const [headerText, setHeaderText] = useState<string>('');
 
   return (
@@ -29,10 +28,12 @@ export const AppRoutes = () => {
       <Route
         path="/search"
         element={
-          <>
-            <Header onInputChange={setHeaderText} />
-            <Search searchText={headerText}/>
-          </>
+          <PrivateRoute>
+            <>
+              <Header onInputChange={setHeaderText} />
+              <Search searchText={headerText} />
+            </>
+          </PrivateRoute>
         }
       />
       <Route
@@ -60,4 +61,4 @@ export const AppRoutes = () => {
       />
     </Routes>
   );
-}
+};
