@@ -174,7 +174,10 @@ const Register = () => {
           Entrar
         </SendButton>
         <AccountMessage>
-          Já tem uma conta? <MessageLink to="register">Clique aqui</MessageLink>{' '}
+          Já tem uma conta?{' '}
+          <MessageLink to="/login" state={state}>
+            Clique aqui
+          </MessageLink>{' '}
           para entrar!
         </AccountMessage>
       </Content>

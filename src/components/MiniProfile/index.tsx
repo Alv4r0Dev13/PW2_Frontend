@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UserE } from '../../utils/entities';
+import { StoredUserE } from '../../utils/entities';
 import { getStorage, removeStorage } from '../../services/storage';
 import {
   Container,
@@ -12,9 +12,10 @@ import {
 } from './styles';
 import { LogoutOutlined } from '@ant-design/icons';
 import LogoutModal from '../LogoutModal';
+import { imgRoute } from '../../secret';
 
 const MiniProfile = () => {
-  const [user, setUser] = useState<UserE | null>(null);
+  const [user, setUser] = useState<StoredUserE | null>(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   function handleLogout() {
@@ -24,6 +25,7 @@ const MiniProfile = () => {
 
   useEffect(() => {
     const storedUser = getStorage('user');
+    console.log(storedUser);
     setUser(storedUser);
   }, []);
 
@@ -36,7 +38,7 @@ const MiniProfile = () => {
         />
       )}
       <InfoContainer>
-        <ProfilePic>{''}</ProfilePic>
+        <ProfilePic src={`${imgRoute}${user.profileURL}`} />
         <UserInfo>
           <Username>{user.username}</Username>
           <Score>{user.score} pontos</Score>

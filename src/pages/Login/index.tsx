@@ -125,7 +125,10 @@ const Login = () => {
         </SendButton>
         <AccountMessage>
           Ainda não tem uma conta?{' '}
-          <MessageLink to="register">Clique aqui</MessageLink> para criar!
+          <MessageLink to="/register" state={state}>
+            Clique aqui
+          </MessageLink>{' '}
+          para criar!
         </AccountMessage>
       </Content>
     </Container>

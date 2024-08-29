@@ -21,6 +21,7 @@ import {
   LikeOutlined,
   RightOutlined,
 } from '@ant-design/icons';
+import { imgRoute } from '../../secret';
 
 const PostContainer: React.FC<PostComponentI> = ({ data }) => {
   return (
@@ -37,7 +38,7 @@ const PostContainer: React.FC<PostComponentI> = ({ data }) => {
         </div>
         <PostAuthor>
           <h1>{data.user.name}</h1>
-          <AuthorProfile />
+          <AuthorProfile src={`${imgRoute}${data.user.profileURL}`} />
         </PostAuthor>
       </PostHead>
       <PostContent>{data.content}</PostContent>

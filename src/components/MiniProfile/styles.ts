@@ -17,8 +17,7 @@ export const InfoContainer = styled.div`
 
 export const UserInfo = styled.div``;
 
-export const ProfilePic = styled.div`
-  background-color: #c6c6c6;
+export const ProfilePic = styled.img`
   border-radius: 20px;
   width: 50px;
   height: 50px;

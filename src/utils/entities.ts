@@ -2,7 +2,7 @@ export type UserE = {
   id: string;
   username: string;
   email: string;
-  profileUrl: string;
+  profileURL: string;
   score: number;
 };
 

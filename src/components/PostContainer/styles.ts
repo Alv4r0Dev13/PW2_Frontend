@@ -32,8 +32,7 @@ export const PostAuthor = styled.div`
   align-items: center;
 `;
 
-export const AuthorProfile = styled.div`
-  background-color: #c6c6c6;
+export const AuthorProfile = styled.img`
   border-radius: 20px;
   width: 50px;
   height: 50px;
