@@ -1,4 +1,3 @@
-import React from 'react';
 import { PostComponentI } from '../../utils/components';
 import {
   AuthorProfile,
@@ -22,8 +21,17 @@ import {
   RightOutlined,
 } from '@ant-design/icons';
 import { imgRoute } from '../../secret';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PostContainer: React.FC<PostComponentI> = ({ data }) => {
+  const [inputId, setInputId] = useState('');
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (data.id) {
+      navigate(`/post/${data.id}`);
+    }
+  };
   return (
     <Container>
       <PostHead>
@@ -48,7 +56,7 @@ const PostContainer: React.FC<PostComponentI> = ({ data }) => {
             <LikeOutlined />
             <span>{data.likes}</span>
           </LikeButton>
-          <CommentsButton>
+          <CommentsButton onClick={handleClick}>
             <CommentOutlined />
             <span>{data.comments}</span>
           </CommentsButton>

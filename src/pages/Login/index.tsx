@@ -58,6 +58,7 @@ const Login = () => {
       .then(
         // OK
         resp => {
+          console.log(resp.data.payload);
           setStorage('user', resp.data.payload);
           navigate(state.prev, { state });
         },

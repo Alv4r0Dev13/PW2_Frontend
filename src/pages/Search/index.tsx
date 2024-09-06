@@ -48,7 +48,7 @@ const Search: React.FC<SearchProps> = ({ searchText }) => {
   }
   function setOptionToMyPosts() {
     setOption(1);
-    setRequestUrl(`/filterPosts/user/${user?.username}`);
+    setRequestUrl(`/filterPosts/user/${user?.id}`);
   }
   function setOptionToPeople() {
     setOption(2);
@@ -59,9 +59,11 @@ const Search: React.FC<SearchProps> = ({ searchText }) => {
     (async () => {
       const params = `/${search}`;
       const newResquestUrl = search ? requestUrl + params : requestUrl;
+      console.log(newResquestUrl);
+      if (user == null) return;
       const data = await axios
         .get(encodeURI(newResquestUrl), {
-          headers: { Authorization: `Bearer ${user?.token}` },
+          headers: { Authorization: `Bearer ${user.token}` },
         })
         .then(resp => resp.data);
       if (option !== 2) {

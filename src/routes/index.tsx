@@ -7,6 +7,7 @@ import Search from '../pages/Search';
 import Profile from '../pages/Profile';
 import EditProfile from '../pages/EditProfile';
 import Register from '../pages/Register';
+import Comment from '../pages/Comment';
 import { useEffect, useState } from 'react';
 
 export const AppRoutes = () => {
@@ -56,6 +57,15 @@ export const AppRoutes = () => {
           <>
             <Header />
             <EditProfile />
+          </>
+        }
+      />
+      <Route
+        path="/post/:id"
+        element={
+          <>
+            <Header />
+            <Comment />
           </>
         }
       />
