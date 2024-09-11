@@ -17,5 +17,9 @@ export type PostE = {
   likes: number;
   comments: number;
   score: number;
-  user: Omit<UserE, 'username' | 'email' | 'score'> & { name: string };
+  date: string;
+  user: {
+    name: string;
+    profileURL: string;
+  };
 };

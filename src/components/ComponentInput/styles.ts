@@ -41,3 +41,10 @@ export const ShowPasswordButton = styled.button`
   background: none;
   border: none;
 `;
+
+export const CharCount = styled.p`
+  color: ${props => props.theme.textLight};
+  text-align: right;
+  font-size: 13px;
+  padding: 0 10px;
+`;

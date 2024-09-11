@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { PostComponentI } from '../../utils/components';
 import {
   AuthorProfile,
@@ -21,7 +22,6 @@ import {
   RightOutlined,
 } from '@ant-design/icons';
 import { imgRoute } from '../../secret';
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const PostContainer: React.FC<PostComponentI> = ({ data }) => {
@@ -32,6 +32,10 @@ const PostContainer: React.FC<PostComponentI> = ({ data }) => {
       navigate(`/post/${data.id}`);
     }
   };
+  function formatTime(timeStr: string) {
+    const date = new Date(timeStr).toLocaleString();
+    return date.substring(0, date.length - 3).replace(', ', ' às ');
+  }
   return (
     <Container>
       <PostHead>
@@ -42,7 +46,7 @@ const PostContainer: React.FC<PostComponentI> = ({ data }) => {
             </TitleArrow>
             <PostTitle>{data.title}</PostTitle>
           </PostTitleContainer>
-          <PostDate>31/02/2024 às 23:99</PostDate>
+          <PostDate>{formatTime(data.date)}</PostDate>
         </div>
         <PostAuthor>
           <h1>{data.user.name}</h1>

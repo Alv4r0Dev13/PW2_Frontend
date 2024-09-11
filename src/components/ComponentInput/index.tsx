@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ComponentInputI } from '../../utils/components';
 import {
+  CharCount,
   Container,
   Input,
   InputContainer,
@@ -15,10 +16,13 @@ const ComponentInput: React.FC<ComponentInputI> = ({
   error,
   name,
   type,
+  onChange,
+  maxLength,
   ...props
 }) => {
   const [passwordShow, setPasswordShow] = useState(false);
   const [inputType, setInputType] = useState(type);
+  const [charCount, setCharCount] = useState(0);
 
   function toggleShowPassword() {
     if (inputType === 'password') setInputType('text');
@@ -32,13 +36,25 @@ const ComponentInput: React.FC<ComponentInputI> = ({
       <InputContainer
         style={{ borderColor: error ? colors.dark.danger : undefined }}
       >
-        <Input type={inputType} {...props} />
+        <Input
+          type={inputType}
+          onChange={e => {
+            onChange?.(e);
+            if (maxLength) setCharCount(e.currentTarget.value.length);
+          }}
+          {...props}
+        />
         {type === 'password' && (
           <ShowPasswordButton onClick={toggleShowPassword}>
             {passwordShow ? <EyeInvisibleFilled /> : <EyeFilled />}
           </ShowPasswordButton>
         )}
       </InputContainer>
+      {maxLength && (
+        <CharCount>
+          {charCount}/{maxLength}
+        </CharCount>
+      )}
     </Container>
   );
 };

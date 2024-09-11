@@ -25,6 +25,9 @@ export interface ComponentInputI
   error?: boolean;
 }
 
+export interface ComponentTextAreaI
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+
 export interface LogoutModalI {
   onClose: () => void;
   onConfirm: () => void;
