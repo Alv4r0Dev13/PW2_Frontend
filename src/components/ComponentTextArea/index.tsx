@@ -13,6 +13,7 @@ const ComponentTextArea: React.FC<ComponentTextAreaI> = ({
   return (
     <Container>
       <Text
+        maxLength={maxLength}
         {...props}
         onChange={e => {
           onChange?.(e);

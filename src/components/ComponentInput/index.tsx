@@ -42,6 +42,7 @@ const ComponentInput: React.FC<ComponentInputI> = ({
             onChange?.(e);
             if (maxLength) setCharCount(e.currentTarget.value.length);
           }}
+          maxLength={maxLength}
           {...props}
         />
         {type === 'password' && (

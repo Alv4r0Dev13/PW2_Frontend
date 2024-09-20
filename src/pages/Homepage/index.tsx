@@ -5,7 +5,6 @@ import {
   CPBackground,
   CPSubmit,
   CPTitle,
-  CreatePostContainer,
   CreatePostModal,
   LMLink,
   LoginMessage,
@@ -13,13 +12,11 @@ import {
 } from './styles';
 import axios from '../../services/axios';
 import { PostE } from '../../utils/entities';
-import Header from '../../components/Header';
 import MiniProfile from '../../components/MiniProfile';
 import PostContainer from '../../components/PostContainer';
 import { getStorage } from '../../services/storage';
 import { useLocation } from 'react-router-dom';
-import ComponentInput from '../../components/ComponentInput';
-import ComponentTextArea from '../../components/ComponentTextArea';
+import CreatePostContainer from '../../components/CreatePostContainer';
 
 const Homepage: React.FC = () => {
   const [posts, setPosts] = useState<PostE[]>([]);
@@ -76,9 +73,22 @@ const Homepage: React.FC = () => {
     <Container>
       <Content>
         {isLoggedIn ? (
-          <PostButton onClick={() => setIsCreatePost(true)}>
-            Criar postagem
-          </PostButton>
+          isCreatePost ? (
+            <CreatePostContainer
+              type="post"
+              title={postTitle}
+              content={postContent}
+              onChangeTitle={e => setPostTile(e.target.value)}
+              onChangeContent={e => setPostContent(e.target.value)}
+              onClickCancel={() => setIsCreatePost(false)}
+              onClickPost={createPost}
+              allowCancel
+            />
+          ) : (
+            <PostButton onClick={() => setIsCreatePost(true)}>
+              Criar postagem
+            </PostButton>
+          )
         ) : (
           <LoginMessage>
             <LMLink to="/login" state={{ prev: location.pathname }}>
@@ -94,7 +104,7 @@ const Homepage: React.FC = () => {
       <MiniProfile />
 
       {/* Create Post Modal */}
-      {isCreatePost && (
+      {/* {isCreatePost && (
         <CreatePostContainer>
           <CPBackground onClick={() => setIsCreatePost(false)} />
           <CreatePostModal id="cp-modal">
@@ -119,7 +129,7 @@ const Homepage: React.FC = () => {
             <CPSubmit onClick={createPost}>Postar</CPSubmit>
           </CreatePostModal>
         </CreatePostContainer>
-      )}
+      )} */}
     </Container>
   );
 };

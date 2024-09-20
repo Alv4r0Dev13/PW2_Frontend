@@ -38,7 +38,9 @@ export const AuthorProfile = styled.img`
   height: 50px;
 `;
 
-export const PostContent = styled.div`
+export const PostContent = styled.p`
+  white-space: pre-wrap;
+  word-wrap: break-word;
   margin: 10px 0 15px;
 `;
 

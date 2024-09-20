@@ -44,3 +44,14 @@ export interface InputProps {
 export interface SearchProps {
   searchText?: string;
 }
+
+export interface CreatePostContainerI {
+  type: 'post' | 'comment';
+  title?: string;
+  content: string;
+  onChangeTitle?: React.ChangeEventHandler<HTMLInputElement>;
+  onChangeContent: React.ChangeEventHandler<HTMLTextAreaElement>;
+  onClickPost: React.MouseEventHandler<HTMLButtonElement>;
+  onClickCancel?: React.MouseEventHandler<HTMLButtonElement>;
+  allowCancel?: boolean;
+}
