@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { PostComponentI } from '../../utils/components';
+import { CommentComponentI } from '../../utils/components';
 import {
   AuthorProfile,
   CommentsButton,
   Container,
-  DisabledCommentsButton,
   LikeButton,
   PostActions,
   PostAuthor,
@@ -28,21 +27,13 @@ import { getStorage, setStorage } from '../../services/storage';
 import axios from '../../services/axios';
 import { StoredUserE } from '../../utils/entities';
 
-const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
+const CommentContainer: React.FC<CommentComponentI> = ({
+  data,
+  haveOptions,
+}) => {
   const [likes, setLikes] = useState(data.likes);
   const [score, setScore] = useState(data.score);
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    if (data.id) {
-      navigate(`/post/${data.id}`);
-    }
-  };
-
-  function formatTime(timeStr: string) {
-    const date = new Date(timeStr).toLocaleString();
-    return date.substring(0, date.length - 3).replace(', ', ' às ');
-  }
 
   async function handleLike() {
     const user = getStorage('user') as StoredUserE;
@@ -50,7 +41,7 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
     if (!storedLikes || !storedLikes.includes(data.id)) {
       await axios
         .put(
-          `/posts/like/${data.id}`,
+          `/comments/like/${data.id}`,
           { add: true, userId: user.id },
           { headers: { Authorization: `Bearer ${user.token}` } },
         )
@@ -79,7 +70,7 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
     }
     await axios
       .put(
-        `/posts/like/${data.id}`,
+        `/comments/like/${data.id}`,
         { add: false, userId: user.id },
         { headers: { Authorization: `Bearer ${user.token}` } },
       )
@@ -109,18 +100,9 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
   return (
     <Container>
       <PostHead>
-        <div>
-          <PostTitleContainer>
-            <TitleArrow>
-              <RightOutlined />
-            </TitleArrow>
-            <PostTitle>{data.title}</PostTitle>
-          </PostTitleContainer>
-          <PostDate>{formatTime(data.date)}</PostDate>
-        </div>
         <PostAuthor>
-          <h1>{data.user.name}</h1>
           <AuthorProfile src={`${imgRoute}${data.user.profileURL}`} />
+          <h1>{data.user.name}</h1>
         </PostAuthor>
       </PostHead>
       <PostContent>{data.content}</PostContent>
@@ -130,22 +112,12 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
             <LikeOutlined />
             <span>{likes}</span>
           </LikeButton>
-          {isButtonEnabled ? (
-            <CommentsButton onClick={handleClick}>
-              <CommentOutlined />
-              <span>{data.comments}</span>
-            </CommentsButton>
-          ) : (
-            <DisabledCommentsButton>
-              <CommentOutlined />
-              <span>{data.comments}</span>
-            </DisabledCommentsButton>
-          )}
           <PostScore>{score} pontos</PostScore>
+          {haveOptions ? <p>SouEditavel</p> : null}
         </PostActions>
       </PostFoot>
     </Container>
   );
 };
 
-export default PostContainer;
+export default CommentContainer;

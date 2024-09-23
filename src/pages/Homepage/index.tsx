@@ -59,7 +59,6 @@ const Homepage: React.FC = () => {
   useEffect(() => {
     (async () => {
       const data = await axios.get('/posts').then(resp => resp.data);
-      console.log(data);
       setPosts(data);
     })();
   }, []);
@@ -98,7 +97,7 @@ const Homepage: React.FC = () => {
           </LoginMessage>
         )}
         {posts.map(post => (
-          <PostContainer key={post.id} data={post} />
+          <PostContainer key={post.id} data={post} isButtonEnabled={true} />
         ))}
       </Content>
       <MiniProfile />

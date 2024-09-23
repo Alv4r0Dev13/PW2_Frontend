@@ -23,3 +23,16 @@ export type PostE = {
     profileURL: string;
   };
 };
+
+export type CommentE = {
+  id: string;
+  authorId: string;
+  content: string;
+  likes: number;
+  score: number;
+  date: string;
+  user: {
+    name: string;
+    profileURL: string;
+  };
+};

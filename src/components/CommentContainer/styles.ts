@@ -86,17 +86,4 @@ export const CommentsButton = styled.button`
   }
 `;
 
-export const DisabledCommentsButton = styled.button`
-  cursor: default;
-  display: flex;
-  color: #000000;
-  background-color: ${props => props.theme.button};
-  border: none;
-  border-radius: 5px;
-  align-items: center;
-  gap: 2px;
-  padding: 2px 4px;
-  disabled: true;
-`;
-
 export const PostScore = styled.p``;

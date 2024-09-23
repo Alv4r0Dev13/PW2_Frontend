@@ -25,7 +25,6 @@ const MiniProfile = () => {
 
   useEffect(() => {
     const storedUser = getStorage('user');
-    console.log(storedUser);
     setUser(storedUser);
   }, []);
 

@@ -9,28 +9,73 @@ import {
   Title,
 } from './styles';
 import axios from '../../services/axios';
-import { PostE } from '../../utils/entities';
+import { PostE, CommentE } from '../../utils/entities';
 import MiniProfile from '../../components/MiniProfile';
 import PostContainer from '../../components/PostContainer';
+import CommentContainer from '../../components/CommentContainer';
 import CommentSection from '../../components/CommentSection';
 import { getStorage } from '../../services/storage';
 import { useLocation, useParams } from 'react-router-dom';
+import CreatePostContainer from '../../components/CreatePostContainer';
 
 const Comment: React.FC = () => {
   const [post, setPost] = useState<PostE>();
+  const [comments, setComments] = useState<CommentE[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCreatePost, setIsCreatePost] = useState(false);
+  const [postContent, setPostContent] = useState('');
+  const [userId, setUserId] = useState('');
   const location = useLocation();
   const { id } = useParams();
 
   useEffect(() => {
     (async () => {
-      console.log(id);
       if (!id || id === '') return;
       const data = await axios.get(`/posts/${id}`).then(resp => resp.data);
-      console.log(data);
       setPost(data);
     })();
   }, [id]);
+
+  useEffect(() => {
+    (async () => {
+      const user = await getStorage('user');
+      setUserId(user.id);
+      const data = await axios
+        .get(`/comments/post/${id}`)
+        .then(resp => resp.data);
+      setComments(data);
+    })();
+  }, [id]);
+
+  async function createPost() {
+    if (postContent && post) {
+      const user = getStorage('user');
+      await axios
+        .post(
+          '/comments/',
+          {
+            authorId: user.id,
+            postId: id,
+            content: postContent,
+          },
+          { headers: { Authorization: `Bearer ${user.token}` } },
+        )
+        .then(
+          // fulfilled
+          () => {
+            setIsCreatePost(false);
+            window.location.reload();
+          },
+          // rejected
+          reason => {
+            console.log(reason.response.data.errors);
+          },
+        )
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 
   useEffect(() => {
     const currentUser = getStorage('user');
@@ -41,14 +86,21 @@ const Comment: React.FC = () => {
     <Container>
       <Content>
         {post ? (
-          <PostContainer key={post.id} data={post} />
+          <PostContainer key={post.id} data={post} isButtonEnabled={false} />
         ) : (
           <p>Não foi possivel carregar este conteudo.</p>
         )}
         <Line />
         {isLoggedIn ? (
           <>
-            <CommentSection />
+            <CreatePostContainer
+              type="comment"
+              content={postContent}
+              onChangeContent={e => setPostContent(e.target.value)}
+              onClickCancel={() => setIsCreatePost(false)}
+              onClickPost={createPost}
+              allowCancel
+            />
             <Line />
           </>
         ) : (
@@ -60,6 +112,15 @@ const Comment: React.FC = () => {
           </LoginMessage>
         )}
         <Title>Comentários</Title>
+        {comments.length > 0
+          ? comments.map(coment => (
+              <CommentContainer
+                key={coment.id}
+                data={coment}
+                haveOptions={userId === coment.authorId}
+              />
+            ))
+          : null}
       </Content>
       <MiniProfile />
     </Container>

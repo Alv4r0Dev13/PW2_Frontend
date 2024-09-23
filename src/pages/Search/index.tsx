@@ -59,7 +59,6 @@ const Search: React.FC<SearchProps> = ({ searchText }) => {
     (async () => {
       const params = `/${search}`;
       const newResquestUrl = search ? requestUrl + params : requestUrl;
-      console.log(newResquestUrl);
       if (user == null) return;
       const data = await axios
         .get(encodeURI(newResquestUrl), {
@@ -123,7 +122,9 @@ const Search: React.FC<SearchProps> = ({ searchText }) => {
         </SearchOptionsDiv>
         <Line />
         {option !== 2
-          ? posts.map(post => <PostContainer key={post.id} data={post} />)
+          ? posts.map(post => (
+              <PostContainer key={post.id} data={post} isButtonEnabled={true} />
+            ))
           : users.map(user => <UserContainer key={user.id} data={user} />)}
       </Content>
       <MiniProfile />

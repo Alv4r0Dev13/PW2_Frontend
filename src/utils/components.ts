@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { PostE, UserE } from './entities';
+import { CommentE, PostE, UserE } from './entities';
 import React from 'react';
 
 export interface PrivateRouteI {
@@ -13,6 +13,12 @@ export interface ToggleThemeI {
 
 export interface PostComponentI {
   data: PostE;
+  isButtonEnabled: boolean;
+}
+
+export interface CommentComponentI {
+  data: CommentE;
+  haveOptions: boolean;
 }
 
 export interface UserComponentI {
