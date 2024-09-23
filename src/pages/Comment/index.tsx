@@ -38,8 +38,6 @@ const Comment: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const user = await getStorage('user');
-      setUserId(user.id);
       const data = await axios
         .get(`/comments/post/${id}`)
         .then(resp => resp.data);
@@ -80,6 +78,7 @@ const Comment: React.FC = () => {
   useEffect(() => {
     const currentUser = getStorage('user');
     setIsLoggedIn(!!currentUser);
+    if (currentUser) setUserId(currentUser.id);
   }, []);
 
   return (
