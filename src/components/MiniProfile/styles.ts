@@ -7,6 +7,12 @@ export const Container = styled.section`
   border-bottom: 2px solid ${props => props.theme.outline};
   width: 25%;
   padding: 15px 0;
+  transition: background-color 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    background-color: rgba(224, 224, 224, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const InfoContainer = styled.div`

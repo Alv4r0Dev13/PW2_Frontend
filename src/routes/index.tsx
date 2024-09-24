@@ -8,7 +8,8 @@ import Profile from '../pages/Profile';
 import EditProfile from '../pages/EditProfile';
 import Register from '../pages/Register';
 import Comment from '../pages/Comment';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import ContactUs from '../pages/Contact';
 
 export const AppRoutes = () => {
   const [headerText, setHeaderText] = useState<string>('');
@@ -38,21 +39,16 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/profile"
+        path="/profile/:id"
         element={
           <>
             <Header />
-            <Profile
-              name={'ana'}
-              email={'ana@gmail.com'}
-              score={0}
-              profilePictureUrl={''}
-            />
+            <Profile/>
           </>
         }
       />
       <Route
-        path="/edit-profile"
+        path="/edit-profile/:id"
         element={
           <>
             <Header />
@@ -69,6 +65,14 @@ export const AppRoutes = () => {
           </>
         }
       />
+      <Route
+        path='/contact'
+        element={
+          <>
+          <ContactUs/>
+          </>
+        }
+        />
     </Routes>
   );
 };

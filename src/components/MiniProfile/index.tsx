@@ -13,10 +13,12 @@ import {
 import { LogoutOutlined } from '@ant-design/icons';
 import LogoutModal from '../LogoutModal';
 import { imgRoute } from '../../secret';
+import { useNavigate } from 'react-router-dom';
 
 const MiniProfile = () => {
   const [user, setUser] = useState<StoredUserE | null>(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   function handleLogout() {
     removeStorage('user');
@@ -28,6 +30,10 @@ const MiniProfile = () => {
     setUser(storedUser);
   }, []);
 
+  const handleProfile = () => {
+    navigate(`/profile/${user?.id}`)
+  }
+
   return user ? (
     <Container>
       {isLogoutModalOpen && (
@@ -36,7 +42,7 @@ const MiniProfile = () => {
           onConfirm={handleLogout}
         />
       )}
-      <InfoContainer>
+      <InfoContainer onClick={handleProfile} style={{ cursor: 'pointer' }} >
         <ProfilePic src={`${imgRoute}${user.profileURL}`} />
         <UserInfo>
           <Username>{user.username}</Username>

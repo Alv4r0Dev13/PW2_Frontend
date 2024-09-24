@@ -1,48 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProfileContainer, ProfileContent, ProfilePicture, ProfileInfo, ButtonContainer, IconButton, PostsSection } from './styles';
+import axios from '../../services/axios';
+import { PostE, UserE } from '../../utils/entities';
+import { getStorage } from '../../services/storage';
+import PostContainer from '../../components/PostContainer';
 
-interface ProfileProps {
-  name: string;
-  email: string;
-  score: number;
-  profilePictureUrl: string;
-}
-
-const Profile: React.FC<ProfileProps> = ({ name, email, score, profilePictureUrl }) => {
+const Profile: React.FC = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<UserE>();
+  const [posts, setPosts] = useState<PostE[]>([]);
+  const [profileURL, setProfileURL] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = getStorage('user');
+    setUser(storedUser);
+    fetchPosts(storedUser.id);
+  }, []);
+
+  const fetchPosts = async (userId: string) => {
+    try {
+      const response = await axios.get(`/posts/user/${userId}`);
+      setPosts(response.data);
+      //console.log("Posts encontrados:", response.data);
+    } catch (error) {
+      console.error("Erro ao buscar posts:", error);
+    }
+  };
 
   const handleEditClick = () => {
-    navigate('/edit-profile');
+    navigate(`/edit-profile/${user?.id}`);
   };
 
   return (
     <ProfileContainer>
       <ProfileContent>
-        <ProfilePicture src={profilePictureUrl} alt="Profile Picture" />
-        <ProfileInfo>
-          <h2>{name}</h2>
-          <p>{email}</p>
-          <p>Score: {score}</p>
-        </ProfileInfo>
-        <ButtonContainer>
-          <IconButton>
-            <FaMapMarkerAlt /> Localização
-          </IconButton>
-          <IconButton onClick={handleEditClick}>
-            <FaEdit /> Editar
-          </IconButton>
-          <IconButton red>
-            <FaTrashAlt /> Deletar
-          </IconButton>
-        </ButtonContainer>
+      {user ? (
+          <>
+            <ProfilePicture src={user.profileURL} alt="Profile Picture" />
+            <ProfileInfo>
+              <h2>{user.username}</h2>
+              <p>{user.email}</p>
+              <p>Score: {user.score}</p>
+            </ProfileInfo>
+            <ButtonContainer>
+              <IconButton>
+                <FaMapMarkerAlt /> Localização
+              </IconButton>
+              <IconButton onClick={handleEditClick}>
+                <FaEdit /> Editar
+              </IconButton>
+              <IconButton red>
+                <FaTrashAlt /> Deletar
+              </IconButton>
+            </ButtonContainer>
+          </>
+        ) : (
+          <p>Carregando dados do usuário...</p>
+        )}
       </ProfileContent>
+
       <PostsSection>
         <h3>Postagens</h3>
-        {/* Filtro de postagens do usuário pode ser adicionado aqui */}
+        {posts.length > 0
+          ? posts.map(post => (
+              <PostContainer key={post.id} data={post} isButtonEnabled={false} />
+            ))
+          : <p>Este usuário não possui postagens.</p>}
       </PostsSection>
     </ProfileContainer>
+
   );
 };
 

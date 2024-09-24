@@ -33,3 +33,17 @@ export const HeaderLink = styled(Link)`
     text-decoration: underline
   }
 `;
+
+export const ContactLink = styled(Link)`
+  color: ${props => props.theme.textMain};
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    background-color: rgba(224, 224, 224, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: underline;
+  }
+`;

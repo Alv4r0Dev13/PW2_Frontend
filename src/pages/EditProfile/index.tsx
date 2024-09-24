@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCamera, FaMapMarkerAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Container, Title, ProfilePictureContainer, Button, InputContainer, Input, PasswordContainer, Label } from './styles';
+import { StoredUserE, UserE } from '../../utils/entities';
+import { useNavigate } from 'react-router-dom';
+import { getStorage, setStorage } from '../../services/storage';
+
 
 const EditProfile: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [user, setUser] = useState<UserE| undefined>(undefined);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
+  const [profilePictureURL, setProfilePictureURL] = useState<string>('');
+
+  useEffect(() => {
+    const storedUser = getStorage('user') as StoredUserE;
+    setUser(storedUser);
+    if (storedUser) {
+    }
+  }, []);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -13,11 +31,12 @@ const EditProfile: React.FC = () => {
     <Container>
       <Title>Editar Perfil</Title>
       <ProfilePictureContainer>
-        {/* Aqui você pode adicionar uma lógica para exibir a foto atual e permitir o upload de uma nova */}
-        <img src="path_to_current_profile_picture" alt="Profile" />
-      </ProfilePictureContainer>
+        <img src={profilePictureURL || "path_to_current_profile_picture"} alt="Profile" />
+        </ProfilePictureContainer>
       <Button>
-        <FaCamera /> Mudar a foto
+          <label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
+          <FaCamera /> Mudar a foto
+        </label>
       </Button>
       <Button>
         <FaMapMarkerAlt /> Editar localização

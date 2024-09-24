@@ -7,6 +7,7 @@ export const ProfileContainer = styled.div`
   width: 100%;
   max-width: 800px;
   margin: auto;
+  margin-top:30px
 `;
 
 export const ProfileContent = styled.div`

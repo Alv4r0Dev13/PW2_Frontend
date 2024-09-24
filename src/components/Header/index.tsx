@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container, HeaderLink, ActionsContainer, TitleLink } from './styles';
+import { Container, HeaderLink, ActionsContainer, TitleLink, ContactLink } from './styles';
 import { getStorage } from '../../services/storage';
 import ToggleTheme from '../ToggleTheme';
 import SearchInput from '../SearchInput';
@@ -33,6 +33,7 @@ const Header: React.FC<HeaderProps> = ({ onInputChange }) => {
             </HeaderLink>
           </>
         )}
+        <ContactLink to="/contact">Fale conosco</ContactLink>
         <ToggleTheme size={30} />
       </ActionsContainer>
     </Container>
