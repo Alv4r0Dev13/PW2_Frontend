@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PostComponentI } from '../../utils/components';
 import {
   AuthorProfile,
@@ -27,10 +27,18 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '../../services/storage';
 import axios from '../../services/axios';
 import { StoredUserE } from '../../utils/entities';
+import PostConfig from '../PostConfig';
+import CreatePostContainer from '../CreatePostContainer';
+import GeneralModal from '../GeneralModal';
 
 const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
   const [likes, setLikes] = useState(data.likes);
   const [score, setScore] = useState(data.score);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editTitle, setEditTitle] = useState(data.title);
+  const [editContent, setEditContent] = useState(data.content);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [user, setUser] = useState<StoredUserE | null>(null);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -45,14 +53,13 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
   }
 
   async function handleLike() {
-    const user = getStorage('user') as StoredUserE;
     const storedLikes = getStorage('liked') as string[] | null;
     if (!storedLikes || !storedLikes.includes(data.id)) {
       await axios
         .put(
           `/posts/like/${data.id}`,
-          { add: true, userId: user.id },
-          { headers: { Authorization: `Bearer ${user.token}` } },
+          { add: true, userId: user?.id },
+          { headers: { Authorization: `Bearer ${user?.token}` } },
         )
         .then(
           // OK
@@ -80,8 +87,8 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
     await axios
       .put(
         `/posts/like/${data.id}`,
-        { add: false, userId: user.id },
-        { headers: { Authorization: `Bearer ${user.token}` } },
+        { add: false, userId: user?.id },
+        { headers: { Authorization: `Bearer ${user?.token}` } },
       )
       .then(
         // OK
@@ -106,8 +113,63 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
       });
   }
 
-  return (
+  useEffect(() => {
+    const user = getStorage('user') as StoredUserE;
+    setUser(user);
+  }, []);
+
+  async function handleEditPost() {
+    const editData: { [key: string]: any } = {};
+    if (editTitle !== data.title) editData.title = editTitle;
+    if (editContent !== data.content) editData.content = editContent;
+    await axios
+      .put(`/posts/${data.id}`, editData, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      })
+      .then(
+        // fulfilled
+        () => {
+          setIsEditMode(false);
+          window.location.reload();
+        },
+
+        // rejected
+        reason => console.log(reason.response.data.errors),
+      )
+      .catch(err => console.log(err));
+  }
+
+  async function handleDeletePost() {
+    await axios
+      .delete(`/posts/${data.id}`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      })
+      .then(
+        // fullfilled
+        () => {
+          setIsDeleteModalOpen(false);
+          window.location.reload();
+        },
+
+        // rejected
+        reason => console.log(reason.response.data.errors),
+      )
+      .catch(err => console.log(err));
+  }
+
+  return !isEditMode ? (
     <Container>
+      {isDeleteModalOpen && (
+        <GeneralModal
+          text={'Você tem certeza que deseja deletar essa postagem?'}
+          confirmText={'Sim, tenho certeza!'}
+          cancelText={'Cancelar'}
+          onConfirm={handleDeletePost}
+          onClose={() => {
+            setIsDeleteModalOpen(false);
+          }}
+        />
+      )}
       <PostHead>
         <div>
           <PostTitleContainer>
@@ -143,8 +205,30 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
           )}
           <PostScore>{score} pontos</PostScore>
         </PostActions>
+        <PostConfig
+          author={data.user.name}
+          onClickEdit={() => setIsEditMode(true)}
+          onClickDelete={() => {
+            setIsDeleteModalOpen(true);
+          }}
+        />
       </PostFoot>
     </Container>
+  ) : (
+    <CreatePostContainer
+      type="post"
+      title={editTitle}
+      content={editContent}
+      onChangeTitle={e => setEditTitle(e.target.value)}
+      onChangeContent={e => setEditContent(e.target.value)}
+      onClickPost={handleEditPost}
+      allowCancel
+      onClickCancel={() => {
+        setIsEditMode(false);
+        setEditTitle(data.title);
+        setEditContent(data.content);
+      }}
+    />
   );
 };
 

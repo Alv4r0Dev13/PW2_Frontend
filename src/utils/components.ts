@@ -69,3 +69,9 @@ export interface CreatePostContainerI {
   onClickCancel?: React.MouseEventHandler<HTMLButtonElement>;
   allowCancel?: boolean;
 }
+
+export interface PostConfigI {
+  author: string;
+  onClickEdit?: React.MouseEventHandler<HTMLButtonElement>;
+  onClickDelete?: React.MouseEventHandler<HTMLButtonElement>;
+}
