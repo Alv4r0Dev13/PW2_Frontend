@@ -8,11 +8,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/leaflet": "^1.9.12",
     "@types/node": "^16.18.104",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "axios": "^1.7.3",
+    "axios": "^1.7.7",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -49,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3"
+    "@biomejs/biome": "^1.8.3",
+    "@types/leaflet": "^1.9.12"
   }
 }

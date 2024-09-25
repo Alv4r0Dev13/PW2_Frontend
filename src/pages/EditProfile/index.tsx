@@ -4,6 +4,7 @@ import { Container, Title, ProfilePictureContainer, Button, InputContainer, Inpu
 import { StoredUserE, UserE } from '../../utils/entities';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '../../services/storage';
+import axios from '../../services/axios';
 
 
 const EditProfile: React.FC = () => {
@@ -17,9 +18,12 @@ const EditProfile: React.FC = () => {
   const [profilePictureURL, setProfilePictureURL] = useState<string>('');
 
   useEffect(() => {
-    const storedUser = getStorage('user') as StoredUserE;
-    setUser(storedUser);
-    if (storedUser) {
+    const currentUser = getStorage('user') as StoredUserE;
+
+    if (currentUser) {
+      setUser(currentUser);
+      setName(currentUser.username || '');
+      setProfilePictureURL(currentUser.profileURL || '');
     }
   }, []);
 
@@ -31,30 +35,108 @@ const EditProfile: React.FC = () => {
     navigate(`/edit-map/${user?.id}`);
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+      setProfilePicture(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePictureURL(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const currentUser = getStorage('user') as StoredUserE;
+
+    if (password && password !== confirmPassword) {
+      alert('As senhas não correspondem');
+      return;
+    }
+
+    try {
+      const token = currentUser.token;
+      const updatedFields: any = {};
+
+      if (name !== currentUser.username) {
+        updatedFields.username = name;
+      }
+      if (password) {
+        updatedFields.password = password;
+      }
+
+      if (Object.keys(updatedFields).length > 0) {
+        await axios.put(`/users/${currentUser.id}`, updatedFields, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log('Perfil atualizado:', updatedFields);
+      }
+
+      if (profilePicture) {
+        const formData = new FormData();
+        formData.append('pf-picture', profilePicture);
+        console.log('Enviando nova foto de perfil:', profilePicture);
+
+        const response = await axios.post(`/users/profilePicture/${currentUser.id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
+
+      console.log('Perfil atualizado com sucesso!');
+      currentUser.username = name;
+      if (profilePictureURL) {
+        currentUser.profileURL = profilePictureURL;
+      }
+      setStorage('user', currentUser);
+
+      navigate(`/profile/${currentUser.id}`);
+    } catch (error) {
+      console.error('Erro ao atualizar o perfil:', error);
+    }
+  };
+
+
   return (
     <Container>
       <Title>Editar Perfil</Title>
       <ProfilePictureContainer>
-        <img src={profilePictureURL || "path_to_current_profile_picture"} alt="Profile" />
+        <img src={profilePictureURL} alt="Profile" />
         </ProfilePictureContainer>
       <Button>
           <label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
           <FaCamera /> Mudar a foto
         </label>
+        <input
+          id="file-upload"
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
       </Button>
       <Button onClick={handleLocalizationClick}>
         <FaMapMarkerAlt /> Editar localização
       </Button>
       <InputContainer>
-        <Label htmlFor="name">Nome</Label>
-        <Input id="name" type="text" placeholder="Novo nome" />
+        <Label htmlFor="username">Nome</Label>
+        <Input id="username" type="text" placeholder="Novo nome"
+        value={name}
+        onChange={(e) => setName(e.target.value)}  />
+
       </InputContainer>
       <InputContainer>
-        <Label htmlFor="new-password">Nova Senha</Label>
+        <Label htmlFor="password">Nova Senha</Label>
         <PasswordContainer>
           <Input
-            id="new-password"
+            id="password"
             type={passwordVisible ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+
             placeholder="Nova senha"
           />
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
@@ -64,11 +146,14 @@ const EditProfile: React.FC = () => {
         </PasswordContainer>
       </InputContainer>
       <InputContainer>
-        <Label htmlFor="confirm-password">Confirmar Senha</Label>
+        <Label htmlFor="confirmPassword">Confirmar Senha</Label>
         <PasswordContainer>
           <Input
-            id="confirm-password"
+            id="confirmPassword"
             type={passwordVisible ? 'text' : 'password'}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+
             placeholder="Confirmar senha"
           />
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
@@ -77,8 +162,7 @@ const EditProfile: React.FC = () => {
           </button>
         </PasswordContainer>
       </InputContainer>
-      <Button>Salvar</Button>
-    </Container>
+      <Button onClick={handleSubmit}>Salvar</Button>    </Container>
   );
 };
 
