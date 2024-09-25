@@ -12,21 +12,26 @@ import {
 } from './styles';
 import axios from '../../services/axios';
 import { PostE, UserE } from '../../utils/entities';
-import { getStorage } from '../../services/storage';
+import { getStorage, removeStorage } from '../../services/storage';
 import PostContainer from '../../components/PostContainer';
 import { imgRoute } from '../../secret';
+import GeneralModal from '../../components/GeneralModal';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<UserE>();
   const [posts, setPosts] = useState<PostE[]>([]);
-  const [profileURL, setProfileURL] = useState<string | null>(null);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   useEffect(() => {
     const storedUser = getStorage('user');
-    setUser(storedUser);
-    fetchPosts(storedUser.id);
-  }, []);
+    if (!storedUser) {
+      navigate('/login');
+    } else {
+      setUser(storedUser);
+      fetchPosts(storedUser.id);
+    }
+  }, [navigate]);
 
   const fetchPosts = async (userId: string) => {
     try {
@@ -46,9 +51,43 @@ const Profile: React.FC = () => {
     navigate(`/map/${user?.id}`);
   };
 
+  const handleDeleteAccount = async () => {
+    const storedUser = getStorage('user');
+    await axios
+      .delete(
+        `/users/${storedUser.id}`,
+        { headers: { Authorization: `Bearer ${storedUser.token}` } },
+      )
+      .then(
+        // fulfilled
+        () => {
+          removeStorage('user');
+          window.location.reload();
+        },
+        // rejected
+        reason => {
+          console.log(reason.response.data.errors);
+        },
+      )
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <ProfileContainer>
       <ProfileContent>
+        {deleteModal ? (
+          <GeneralModal
+            onClose={() => {
+              setDeleteModal(false);
+            }}
+            onConfirm={handleDeleteAccount}
+            text={'Você tem certeza que deseja deletar sua conta?'}
+            confirmText={'Sim, tenho certeza!'}
+            cancelText={'Cancelar'}
+          />
+        ) : null}
         {user ? (
           <>
             <ProfilePicture
@@ -67,7 +106,12 @@ const Profile: React.FC = () => {
               <IconButton onClick={handleEditClick}>
                 <FaEdit /> Editar
               </IconButton>
-              <IconButton red>
+              <IconButton
+                onClick={() => {
+                  setDeleteModal(true);
+                }}
+                red
+              >
                 <FaTrashAlt /> Deletar
               </IconButton>
             </ButtonContainer>

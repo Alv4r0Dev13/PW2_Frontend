@@ -65,6 +65,7 @@ const Homepage: React.FC = () => {
 
   useEffect(() => {
     const currentUser = getStorage('user');
+    if (!currentUser) return;
     setIsLoggedIn(!!currentUser);
   }, []);
 

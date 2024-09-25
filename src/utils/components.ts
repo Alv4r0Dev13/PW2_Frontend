@@ -39,6 +39,14 @@ export interface LogoutModalI {
   onConfirm: () => void;
 }
 
+export interface GeneralModalI {
+  onClose: () => void;
+  onConfirm: () => void;
+  text: string;
+  confirmText: string;
+  cancelText: string;
+}
+
 export interface HeaderProps {
   onInputChange?: (value: string) => void;
 }

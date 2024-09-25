@@ -60,7 +60,8 @@ const Login = () => {
         resp => {
           console.log(resp.data.payload);
           setStorage('user', resp.data.payload);
-          navigate(state.prev, { state });
+          if (state) navigate(state.prev, { state });
+          else navigate('/');
         },
 
         // NOT FOUND or SERVER ERROR
