@@ -10,6 +10,8 @@ import Register from '../pages/Register';
 import Comment from '../pages/Comment';
 import { useState } from 'react';
 import ContactUs from '../pages/Contact';
+import Maps from '../pages/Map';
+import EditMaps from '../pages/EditMap';
 
 export const AppRoutes = () => {
   const [headerText, setHeaderText] = useState<string>('');
@@ -43,7 +45,25 @@ export const AppRoutes = () => {
         element={
           <>
             <Header />
-            <Profile/>
+            <Profile />
+          </>
+        }
+      />
+      <Route
+        path="/map/:id"
+        element={
+          <>
+            <Header />
+            <Maps />
+          </>
+        }
+      />
+      <Route
+        path="/edit-map/:id"
+        element={
+          <>
+            <Header />
+            <EditMaps />
           </>
         }
       />
@@ -66,13 +86,13 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path='/contact'
+        path="/contact"
         element={
           <>
-          <ContactUs/>
+            <ContactUs />
           </>
         }
-        />
+      />
     </Routes>
   );
 };

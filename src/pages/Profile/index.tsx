@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ProfileContainer, ProfileContent, ProfilePicture, ProfileInfo, ButtonContainer, IconButton, PostsSection } from './styles';
+import {
+  ProfileContainer,
+  ProfileContent,
+  ProfilePicture,
+  ProfileInfo,
+  ButtonContainer,
+  IconButton,
+  PostsSection,
+} from './styles';
 import axios from '../../services/axios';
 import { PostE, UserE } from '../../utils/entities';
 import { getStorage } from '../../services/storage';
 import PostContainer from '../../components/PostContainer';
+import { imgRoute } from '../../secret';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -25,7 +34,7 @@ const Profile: React.FC = () => {
       setPosts(response.data);
       //console.log("Posts encontrados:", response.data);
     } catch (error) {
-      console.error("Erro ao buscar posts:", error);
+      console.error('Erro ao buscar posts:', error);
     }
   };
 
@@ -33,19 +42,26 @@ const Profile: React.FC = () => {
     navigate(`/edit-profile/${user?.id}`);
   };
 
+  const handleLocalizationClick = () => {
+    navigate(`/map/${user?.id}`);
+  };
+
   return (
     <ProfileContainer>
       <ProfileContent>
-      {user ? (
+        {user ? (
           <>
-            <ProfilePicture src={user.profileURL} alt="Profile Picture" />
+            <ProfilePicture
+              src={`${imgRoute}${user.profileURL}`}
+              alt="Profile Picture"
+            />
             <ProfileInfo>
               <h2>{user.username}</h2>
               <p>{user.email}</p>
               <p>Score: {user.score}</p>
             </ProfileInfo>
             <ButtonContainer>
-              <IconButton>
+              <IconButton onClick={handleLocalizationClick}>
                 <FaMapMarkerAlt /> Localização
               </IconButton>
               <IconButton onClick={handleEditClick}>
@@ -63,14 +79,15 @@ const Profile: React.FC = () => {
 
       <PostsSection>
         <h3>Postagens</h3>
-        {posts.length > 0
-          ? posts.map(post => (
-              <PostContainer key={post.id} data={post} isButtonEnabled={false} />
-            ))
-          : <p>Este usuário não possui postagens.</p>}
+        {posts.length > 0 ? (
+          posts.map(post => (
+            <PostContainer key={post.id} data={post} isButtonEnabled={false} />
+          ))
+        ) : (
+          <p>Este usuário não possui postagens.</p>
+        )}
       </PostsSection>
     </ProfileContainer>
-
   );
 };
 

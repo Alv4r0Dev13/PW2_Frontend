@@ -27,6 +27,10 @@ const EditProfile: React.FC = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const handleLocalizationClick = () => {
+    navigate(`/edit-map/${user?.id}`);
+  };
+
   return (
     <Container>
       <Title>Editar Perfil</Title>
@@ -38,7 +42,7 @@ const EditProfile: React.FC = () => {
           <FaCamera /> Mudar a foto
         </label>
       </Button>
-      <Button>
+      <Button onClick={handleLocalizationClick}>
         <FaMapMarkerAlt /> Editar localização
       </Button>
       <InputContainer>
