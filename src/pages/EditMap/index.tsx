@@ -40,7 +40,7 @@ const messages = [
   'O meu nome é Dom Pedro Terceiro',
   'Como centraliza uma div?',
   'Estou triste...',
-  'Eu tento fugir de mim, mas pra onde eu vou, eu estou lá'
+  'Eu tento fugir de mim, mas pra onde eu vou, eu estou lá',
 ];
 
 const EditMaps: React.FC = () => {
@@ -151,11 +151,11 @@ const EditMaps: React.FC = () => {
       <MiniProfile />
       <ProfileContainer>
         <ProfileContent>
-          {user && userLocalization ? (
+          {user ? (
             <MapDiv>
               <MapContainer
                 center={userLocalization ? userLocalization : [0, 0]}
-                zoom={13}
+                zoom={userLocalization ? 13 : 1}
                 style={{ height: 400, width: 'auto', borderRadius: 10 }}
               >
                 <TileLayer
