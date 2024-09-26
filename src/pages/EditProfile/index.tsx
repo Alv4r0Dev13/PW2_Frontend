@@ -40,7 +40,7 @@ const EditProfile: React.FC = () => {
   };
 
   const handleLocalizationClick = () => {
-    navigate(`/edit-map/${user?.id}`);
+    navigate('/edit-map');
   };
 
   const handleFileChange = async (

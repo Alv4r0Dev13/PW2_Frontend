@@ -59,7 +59,7 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/edit-map/:id"
+        path="/edit-map"
         element={
           <>
             <Header />
@@ -68,7 +68,7 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/edit-profile/:id"
+        path="/edit-profile"
         element={
           <>
             <Header />

@@ -1,18 +1,40 @@
 import styled from 'styled-components';
 
 export const ProfileContainer = styled.div`
+display: flex;
+gap: 20px;
+align-items: flex-start;
+background-color: ${props => props.theme.backgroundMain};
+justify-content: center;
+`;
+
+export const Container = styled.section`
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background-color: ${props => props.theme.backgroundMain};
+  padding: 2% 4%;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 2px solid ${props => props.theme.outline};
+  border-radius: 15px;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 800px;
-  margin: auto;
-  margin-top:30px
+  width: calc(75% - 20px);
 `;
 
 export const ProfileContent = styled.div`
-  display: flex;
-  align-items: flex-start;
+display: flex;
+flex-direction: column;
+gap: 20px;
+border: 2px solid ${props => props.theme.outline};
+border-radius: 15px;
+padding: 20px;
+width: calc(75% - 20px);
+margin: 2rem;
 `;
 
 export const ProfilePicture = styled.img`
@@ -24,6 +46,9 @@ export const ProfilePicture = styled.img`
 
 export const ProfileInfo = styled.div`
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   h2 {
     margin: 0;
     font-size: 24px;
@@ -39,6 +64,7 @@ export const ButtonContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-left: 20px;
+  height: 100%;
 `;
 
 export const IconButton = styled.button<{ red?: boolean }>`
@@ -59,13 +85,30 @@ export const IconButton = styled.button<{ red?: boolean }>`
 `;
 
 export const PostsSection = styled.div`
-  margin-top: 20px;
-  border-top: 1px solid #ccc;
-  padding-top: 20px;
-  text-align: center;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
 
   h3 {
     font-size: 20px;
     margin-bottom: 10px;
   }
+`;
+
+export const UserInfoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const AllUserInfoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 8rem;
+`;
+
+export const Line = styled.hr`
+  width: 100%;
+  color: ${props => props.theme.outline}
 `;

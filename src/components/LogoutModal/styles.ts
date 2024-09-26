@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,12 +12,20 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
+export const ModalActions = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
 export const ModalContainer = styled.div`
   position: relative;
   background-color: ${props => props.theme.backgroundLighter};
   border-radius: 10px;
-  padding: 2%;
-  width: 12%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 7rem;
 `;
 
 export const Text = styled.p`
@@ -30,10 +38,12 @@ export const Buttons = styled.div`
   display: flex;
   /* flex-direction: row; */
   justify-content: space-around;
+  gap: 1rem;
 `;
 
 export const ConfirmButton = styled.button`
-  padding: 2% 4%;
+  width: 7rem;
+  height: 2rem;
   color: white;
   background-color: ${props => props.theme.danger};
 
@@ -43,6 +53,8 @@ export const ConfirmButton = styled.button`
 `;
 
 export const CancelButton = styled.button`
+  width: 7rem;
+  height: 2rem;
   background-color: ${props => props.theme.button};
   color: ${props => props.theme.textButton};
 
@@ -53,10 +65,10 @@ export const CancelButton = styled.button`
 
 export const CloseButton = styled.button`
   display: flex;
-  position: absolute;
   color: ${props => props.theme.textMain};
   background: none;
   padding: 2px;
   top: 20px;
   right: 20px;
+  margin-left: 90%;
 `;

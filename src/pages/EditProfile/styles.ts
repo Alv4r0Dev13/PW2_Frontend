@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 2px solid ${props => props.theme.outline};
   border-radius: 10px;
   max-width: 500px; /* Ajuste a largura conforme necessário */
   margin: auto;

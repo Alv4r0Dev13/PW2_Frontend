@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,19 +17,21 @@ export const ModalContainer = styled.div`
   background-color: ${props => props.theme.backgroundLighter};
   border-radius: 10px;
   padding: 2%;
-  width: 12%;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Text = styled.p`
   color: ${props => props.theme.textMain};
   text-align: center;
   margin-bottom: 5%;
+  padding-top: 1rem;
 `;
 
 export const Buttons = styled.div`
   display: flex;
   /* flex-direction: row; */
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 export const ConfirmButton = styled.button`
@@ -49,14 +51,15 @@ export const CancelButton = styled.button`
   &:hover {
     background-color: ${props => props.theme.buttonLight};
   }
+  padding: 2% 4%;
 `;
 
 export const CloseButton = styled.button`
   display: flex;
-  position: absolute;
   color: ${props => props.theme.textMain};
   background: none;
   padding: 2px;
   top: 20px;
   right: 20px;
+  padding-left: 95%;
 `;

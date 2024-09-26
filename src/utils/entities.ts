@@ -12,6 +12,7 @@ export type StoredUserE = UserE & {
 
 export type PostE = {
   id: string;
+  authorId: string;
   title: string;
   content: string;
   likes: number;
@@ -19,6 +20,7 @@ export type PostE = {
   score: number;
   date: string;
   user: {
+    id: string;
     name: string;
     profileURL: string;
   };

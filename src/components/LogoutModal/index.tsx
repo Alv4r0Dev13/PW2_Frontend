@@ -8,6 +8,7 @@ import {
   Container,
   ModalContainer,
   Text,
+  ModalActions,
 } from './styles';
 import { CloseOutlined } from '@ant-design/icons';
 

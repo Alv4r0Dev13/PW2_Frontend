@@ -10,9 +10,17 @@ export const Container = styled.div`
   padding: 20px;
 `;
 
-export const ProfilePic = styled.div`
-  background-color: #c6c6c6;
+export const ProfilePic = styled.img`
   border-radius: 20px;
   width: 50px;
   height: 50px;
 `;
+
+export const UserInfo = styled.div``;
+
+export const Username = styled.h1``;
+
+export const Score = styled.p`
+  color: ${props => props.theme.textLight};
+`;
+

@@ -45,8 +45,8 @@ const messages = [
 const Maps: React.FC = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<UserE>();
-  const [profileURL, setProfileURL] = useState<string | null>(null);
   const [randomMessage, setRandomMessage] = useState<string>(messages[0]);
+  const { id } = useParams();
 
   const [userLocalization, setUserLocalization] = useState<latLng | null>(null);
 
@@ -58,16 +58,17 @@ const Maps: React.FC = () => {
   });
 
   useEffect(() => {
-    const storedUser = getStorage('user');
-    setUser(storedUser);
-    fetchPosts(storedUser);
-  }, []);
+    (async () => {
+      const data = await axios.get(`/users/${id}`).then(resp => resp.data);
+      setUser(data);
+      fetchPosts();
+    })();
+  }, [id]);
 
-  const fetchPosts = async (user: StoredUserE) => {
+  const fetchPosts = async () => {
     try {
-      const response = await axios.get(`/localizations/user/${user.id}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
+      console.log(id);
+      const response = await axios.get(`/localizations/user/${id}`);
       if (response.data.length > 0) {
         const userLoc: latLng = {
           lat: Number(response.data[0].lat),
@@ -88,7 +89,6 @@ const Maps: React.FC = () => {
 
   return (
     <Container>
-      <MiniProfile />
       <ProfileContainer>
         <ProfileContent>
           {user && userLocalization ? (

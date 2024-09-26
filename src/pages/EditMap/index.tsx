@@ -148,7 +148,6 @@ const EditMaps: React.FC = () => {
 
   return (
     <Container>
-      <MiniProfile />
       <ProfileContainer>
         <ProfileContent>
           {user ? (

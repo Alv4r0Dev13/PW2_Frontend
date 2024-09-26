@@ -159,6 +159,11 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
       .catch(err => console.log(err));
   }
 
+  const handleProfile = () => {
+    if (!data.user.id) return;
+    navigate(`/profile/${data.user.id}`);
+  };
+
   return !isEditMode ? (
     <Container>
       {isDeleteModalOpen && (
@@ -182,7 +187,7 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
           </PostTitleContainer>
           <PostDate>{formatTime(data.date)}</PostDate>
         </div>
-        <PostAuthor>
+        <PostAuthor onClick={handleProfile} style={{ cursor: 'pointer' }}>
           <h1>{data.user.name}</h1>
           <AuthorProfile src={`${imgRoute}${data.user.profileURL}`} />
         </PostAuthor>
