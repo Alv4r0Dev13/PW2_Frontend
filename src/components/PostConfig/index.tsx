@@ -17,6 +17,7 @@ import {
 import { PostConfigI } from '../../utils/components';
 import { getStorage } from '../../services/storage';
 import { StoredUserE } from '../../utils/entities';
+import { FaCog, FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 const PostConfig: React.FC<PostConfigI> = ({
   author,
@@ -35,16 +36,16 @@ const PostConfig: React.FC<PostConfigI> = ({
   return isAuthor ? (
     <Container>
       <OpenMenuButton onClick={() => setIsOpen(!isOpen)}>
-        <SettingFilled />
+        <FaCog />
       </OpenMenuButton>
       {isOpen && (
         <ActionsContainer>
           <LeftOutlined />
           <EditPostButton onClick={onClickEdit}>
-            <EditOutlined />
+            <FaEdit />
           </EditPostButton>
           <DeletePostButton onClick={onClickDelete}>
-            <DeleteOutlined />
+            <FaTrashAlt />
           </DeletePostButton>
         </ActionsContainer>
       )}

@@ -33,7 +33,7 @@ export const Input = styled.input`
   }
 `;
 
-export const ShowPasswordButton = styled.button`
+export const ShowPasswordButton = styled.div`
   display: flex;
   color: ${props => props.theme.textMain};
   font-size: 18px;
