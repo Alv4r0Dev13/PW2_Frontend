@@ -15,6 +15,8 @@ const CreatePostContainer: React.FC<CreatePostContainerI> = ({
   type,
   title,
   content,
+  titlePlaceholder,
+  contentPlaceholder,
   onChangeTitle,
   onChangeContent,
   onClickPost,
@@ -27,13 +29,13 @@ const CreatePostContainer: React.FC<CreatePostContainerI> = ({
         {type === 'post' && (
           <ComponentInput
             value={title}
-            placeholder="Título da postagem"
+            placeholder={titlePlaceholder || 'Título da postagem'}
             maxLength={100}
             onChange={onChangeTitle}
           />
         )}
         <ComponentTextArea
-          placeholder="Escreva sua postagem aqui"
+          placeholder={contentPlaceholder || 'Escreva sua postagem aqui'}
           value={content}
           maxLength={2000}
           onChange={onChangeContent}

@@ -62,17 +62,17 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
           { headers: { Authorization: `Bearer ${user?.token}` } },
         )
         .then(
-          // OK
+          // fulfilled
           () => {
             const storeContent = storedLikes
               ? [...storedLikes, data.id]
               : [data.id];
             setStorage('liked', storeContent);
             setLikes(likes + 1);
-            setScore(score + 5);
+            if (data.user.name !== user?.username) setScore(score + 5);
           },
 
-          // NOT FOUND or SERVER ERROR
+          // rejected
           reason => {
             console.log(reason.response.data.message);
             alert('Algo deu errado :/');
@@ -84,6 +84,7 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
         });
       return;
     }
+
     await axios
       .put(
         `/posts/like/${data.id}`,
@@ -91,17 +92,18 @@ const PostContainer: React.FC<PostComponentI> = ({ data, isButtonEnabled }) => {
         { headers: { Authorization: `Bearer ${user?.token}` } },
       )
       .then(
-        // OK
+        // fulfilled
         () => {
           setStorage(
             'liked',
             storedLikes.filter(value => value !== data.id),
           );
           setLikes(likes ? likes - 1 : 0);
-          setScore(score ? score - 5 : 0);
+          if (data.user.name !== user?.username)
+            setScore(score ? score - 5 : 0);
         },
 
-        // NOT FOUND or SERVER ERROR
+        // rejected
         reason => {
           console.log(reason.response.data.message);
           alert('Algo deu errado :/');

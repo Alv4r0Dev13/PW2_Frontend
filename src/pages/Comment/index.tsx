@@ -94,6 +94,7 @@ const Comment: React.FC = () => {
           <>
             <CreatePostContainer
               type="comment"
+              contentPlaceholder="Escreva um comentário..."
               content={postContent}
               onChangeContent={e => setPostContent(e.target.value)}
               onClickCancel={() => setIsCreatePost(false)}

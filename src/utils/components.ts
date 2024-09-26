@@ -63,6 +63,8 @@ export interface CreatePostContainerI {
   type: 'post' | 'comment';
   title?: string;
   content: string;
+  titlePlaceholder?: string;
+  contentPlaceholder?: string;
   onChangeTitle?: React.ChangeEventHandler<HTMLInputElement>;
   onChangeContent: React.ChangeEventHandler<HTMLTextAreaElement>;
   onClickPost: React.MouseEventHandler<HTMLButtonElement>;

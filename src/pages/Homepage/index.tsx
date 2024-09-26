@@ -11,10 +11,10 @@ import {
   PostButton,
 } from './styles';
 import axios from '../../services/axios';
-import { PostE } from '../../utils/entities';
+import { PostE, StoredUserE } from '../../utils/entities';
 import MiniProfile from '../../components/MiniProfile';
 import PostContainer from '../../components/PostContainer';
-import { getStorage } from '../../services/storage';
+import { getStorage, setStorage } from '../../services/storage';
 import { useLocation } from 'react-router-dom';
 import CreatePostContainer from '../../components/CreatePostContainer';
 
@@ -64,9 +64,24 @@ const Homepage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const currentUser = getStorage('user');
+    const currentUser = getStorage('user') as StoredUserE;
     if (!currentUser) return;
     setIsLoggedIn(!!currentUser);
+
+    (async () => {
+      await axios
+        .get(`/users/likes/${currentUser.id}`, {
+          headers: { Authorization: `Bearer ${currentUser.token}` },
+        })
+        .then(
+          // fulfilled
+          resp => setStorage('liked', resp.data),
+
+          // rejected
+          reason => console.log(reason.response.data.errors),
+        )
+        .catch(err => console.log(err));
+    })();
   }, []);
 
   return (
